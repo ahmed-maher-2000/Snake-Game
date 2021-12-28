@@ -13,7 +13,8 @@
 #define LEFT     -1
 #define UP        2
 #define DOWN     -2
-#define MAX      50
+#define MAX      20
+#define SPEED_INCREASE 0.5
 
 // Public Scope Variables 
 int snakePositionX[60] = {20,20,20,20,20}; 
@@ -24,7 +25,7 @@ bool gameOver = false;
 int foodPositionX,foodPositionY; 
 bool food = true;
 int score = 0;
-float FPS = 8;
+float FPS = 10.0;
 // Functions
 void init();
 void reshape(int,int);
@@ -99,7 +100,7 @@ void display(void){
 // Timer function
 void timer(int){
 	glutPostRedisplay();
-	glutTimerFunc(1000/FPS,timer,0);
+	glutTimerFunc(1000.0/FPS,timer,0);
 }
 
 // Keyboard function
@@ -181,7 +182,7 @@ void drawSnake(){
 	if(snakePositionX[0] == foodPositionX && snakePositionY[0] == foodPositionY){
 		snakeLength++;
 		score++;
-		FPS += 0.25 ;
+		FPS += SPEED_INCREASE ;
 		food = true;
 		PlaySound(TEXT("eating.wav"),NULL,SND_ASYNC);
 		for(int i=0 ; i < snakeLength ; i++){
@@ -190,7 +191,7 @@ void drawSnake(){
 		}else {
 			glColor3d(1.0,0.85,0.85);	
 		}		
-		glRectd(snakePositionX[i],snakePositionY[i],snakePositionX[i]+1.2 , snakePositionY[i]+1.2);	
+		glRectd(snakePositionX[i],snakePositionY[i],snakePositionX[i]+1.3 , snakePositionY[i]+1.3);	
 		}
 		
 		if(score == MAX){
@@ -212,8 +213,8 @@ void drawFood(){
 
 // generate randow number function 
 void random(int& x , int& y){
-	int max = ROWS-2;
-	int min = 1;
+	int max = ROWS-3;
+	int min = 2;
 	srand(time(NULL));
 	x = min + rand() % (max - min);
 	y = min + rand() % (max - min);
